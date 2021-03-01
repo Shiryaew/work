@@ -1,68 +1,74 @@
-import React from "react"
-import { Text, View, TextInput } from "react-native";
-import Button from "./components/Button";
+import React from "react";
+import { Image, Text, View } from "react-native";
+import { ButtonNext, ButtonPrev } from "./components/Button";
+
+  let images = [
+  "https://i2.wp.com/alumninsu.ru/news/wp-content/uploads/2016/08/%D0%B1%D0%BE%D0%B1%D0%B5%D1%80.jpg?resize=640%2C360&ssl=1",
+  "https://www.newsler.ru/data/content/2019/85458/177672a58e6aea82f1a0d557f0e72895.jpg",
+  "https://nedelya40.ru/wp-content/uploads/2015/07/36a8f8fabb3b0e45c953.jpg",
+  "https://m.pln24.ru/pictures/210108160523.jpg",
+  "https://naked-science.ru/wp-content/uploads/2020/05/Snimok-ekrana-ot-2020-05-25-09-13-05.jpg"
+  ];
+  var about = ["Опасный бобр", "Добрый бобр", "Шокированный бобр", "Обедающий бобр", "Сваливающий бобр"];
 
 class App extends React.Component {
+
   state = {
-    Name: "Name",
-    Age: 1
+    count: 0
   }
   
-  updateData = () => {
-    this.setState({temp: true})
+  nextImage = () => {
+    this.setState({count: this.state.count + 1})
+  }
+
+  prevImage = () => {
+    this.setState({count: this.state.count - 1})
   }
   
   render() {
-    if (this.state.temp) {
-      return (
-        <Text>{this.state.Name} {this.state.Age}</Text>
-      )
-    }
-
     return (
       <View
         style={{
           flex: 1,
           justifyContent: "center",
           alignItems: "center"
-        }}
+        }
+      }
       >
-      
-        <Text>NAME</Text>
-        <View
-            style={{
-            borderBottomColor: '#000000',
-            borderBottomWidth: 1,
-            }}>
-            <TextInput
-            multiline
-            numberOfLines={0}
-            onChangeText={Name => this.setState({Name})}
-            />
-        </View>
 
-        <Text>
-          
-        </Text>
+        <Image
+          style = {
+            {
+              width: 400,
+              height: 300,
+            }
+          }
+            source = {{uri: images[this.state.count]}}
+        /> 
 
-        <Text>AGE</Text>
-        <View
-            style={{
-            borderBottomColor: '#000000',
-            borderBottomWidth: 1,
-            }}>
-            <TextInput
-            multiline
-            numberOfLines={0}
-            onChangeText={Age => this.setState({Age})}
-            />
-        </View>
+        <Text> {about[this.state.count]} </Text>
 
-        <Text>
-          
-        </Text>
+        {this.state.count > 0 && <ButtonPrev 
+          style={
+            {
+              flex: 0,
+              justifyContent: "space-between",
+              alignItems: "center"
+            }
+          }
+            prevImage={this.prevImage}
+        />}
 
-        <Button updateData={this.updateData} />
+        {this.state.count < 4 && <ButtonNext 
+          style={
+            {
+              flex: 0,
+              justifyContent: "space-between",
+              alignItems: "center"
+            }
+          }
+          nextImage={this.nextImage}
+        />}    
 
       </View>
     )
