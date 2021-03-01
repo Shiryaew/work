@@ -4,8 +4,8 @@ import { TouchableOpacity, Text } from 'react-native';
 class Button extends React.Component {
     render() {
         return (
-            <TouchableOpacity onPress={this.props.increase}>
-                <Text>Press me</Text>
+            <TouchableOpacity onPress={this.props.updateData}>
+                <Text>Done</Text>
             </TouchableOpacity>
         )
     }
