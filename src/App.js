@@ -1,47 +1,105 @@
 import React from "react";
-import { Image, Text, View, ScrollView } from "react-native";
+import { Image, Text, View, ScrollView, FlatList, TouchableOpacity, Dimensions } from "react-native";
+
+const renderItem = ({ item }) => (
+  <View>
+    <Image style={{
+      width: Dimensions.get("window").width,
+      height: 500
+    }}
+      source={{ uri: item.product }}
+    />
+
+    <Text style={{
+      fontSize: 15,
+      textAlign: "center",
+      padding: 15,
+      bottom: 50,
+      backgroundColor: "lightgray",
+      color: "black",
+      borderColor: 'lightgray',
+      borderRadius: 20,
+      borderWidth: 1
+    }}>{item.title}</Text>
+  </View>
+)
 
 class App extends React.Component {
-
   state = {
-    images: [
-      "https://i2.wp.com/alumninsu.ru/news/wp-content/uploads/2016/08/%D0%B1%D0%BE%D0%B1%D0%B5%D1%80.jpg?resize=640%2C360&ssl=1",
-      "https://www.newsler.ru/data/content/2019/85458/177672a58e6aea82f1a0d557f0e72895.jpg",
-      "https://nedelya40.ru/wp-content/uploads/2015/07/36a8f8fabb3b0e45c953.jpg",
-      "https://m.pln24.ru/pictures/210108160523.jpg",
-      "https://naked-science.ru/wp-content/uploads/2020/05/Snimok-ekrana-ot-2020-05-25-09-13-05.jpg"
-      ],
-      about: ["Опасный бобр", "Добрый бобр", "Шокированный бобр", "Обедающий бобр", "Сваливающий бобр"]
+    categories: [
+      { name: 'Вода' },
+      { name: 'Ёмкости' },
+      { name: 'Доставка' },
+      { name: 'Дополнительно' }
+    ],
+
+    variants: [
+      {
+        product: 'https://coffee-break.pro/2642-thickbox_default/stakan-odnorazovyj-huhtamaki-prozrachnyj-200ml-100sht-up.jpg',
+        title: 'Бюджетный вариант'
+      },
+
+      {
+        product: 'https://buttylka.ru/images/but.png',
+        title: 'Дружеский вариант'
+      },
+
+      {
+        product: 'https://www.gammaplast.lv/public/images/products/pet%20mw%201.50.png',
+        title: 'Классический вариант'
+      },
+
+      {
+        product: 'https://static.tildacdn.com/tild6330-6131-4361-a164-373661616633/5L1.png',
+        title: 'Премиум вариант'
+      }
+    ]
+
   }
-    
+
   render() {
-    const { images, about } = this.state;
-
+    const { categories, variants } = this.state;
     return (
-        
-        <ScrollView style = {{flex: 1}}>
-          {images.map((url, ind)=>{
-            return (<View key={url}>
-            <Image 
-              style = {
-                {
-                  width: 400,
-                  height: 300,
-                }
-              }
-              source = {{ uri: url }}
-
-            />
-            <Text> {about[ind]} </Text>
-
-            <Text> </Text>
-
-            </View>
-
-            )
-          })}
+      <View style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+      }}>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={{ paddingLeft: 10 }}>{
+            categories.map((item) => (
+              <View style={{
+                paddingTop: 20,
+                paddingRight: 10,
+                height: 100
+              }}
+                key={item.name}>
+                <TouchableOpacity style={{
+                  padding: 10,
+                  borderColor: 'lightgray',
+                  borderRadius: 30,
+                  borderWidth: 1
+                }}
+                >
+                  <Text style={{
+                    color: 'black',
+                    fontSize: 15
+                  }}>
+                    {item.name}</Text>
+                </TouchableOpacity>
+              </View>
+            ))
+          }
         </ScrollView>
 
+        <FlatList
+          data={variants}
+          renderItem={renderItem}
+          keyExtrator={item => item.product}
+        />
+      </View>
     )
   }
 }
